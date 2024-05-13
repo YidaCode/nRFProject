@@ -351,12 +351,13 @@ static void sleep_mode_enter(void)
     APP_ERROR_CHECK(err_code);
 }
 
-static uint8_t data_array_nus_datapkg[3] = {0x28,0x01,0x0D};
-void ble_nus_data_send_datapkg(uint8_t data)
+static uint8_t data_array_nus_datapkg[4] = {0xFE,0x01,0x02,0xFD};
+void ble_nus_data_send_datapkg(uint8_t data_h,uint8_t data_l)
 {
     ret_code_t     err_code;
-    uint16_t       length                = 3;
-    data_array_nus_datapkg[1] = data;
+    uint16_t       length                = 4;
+    data_array_nus_datapkg[1] = data_h;
+    data_array_nus_datapkg[2] = data_l;
     err_code = ble_nus_data_send(&m_nus, data_array_nus_datapkg, &length, m_conn_handle);
     NRF_LOG_INFO("BLE Send Flag:%d.",err_code);
 }

@@ -49,6 +49,6 @@ void        ble_services_init(void);
 void        ble_conn_params_init_1(void);
 void        ble_advertising_init_1(void);
 void        ble_advertising_start_1(void);
-void        ble_nus_data_send_datapkg(uint8_t data);
+void        ble_nus_data_send_datapkg(uint8_t data_h,uint8_t data_l);
 
 #endif

@@ -34,10 +34,21 @@
 #include "pwm_cus.h"
 
 /*============= D E F I N E S ==============*/
+#define SAMPLE_RATE 10
+
 const   nrf_drv_timer_t TIMER_1 = NRF_DRV_TIMER_INSTANCE(1);//Timer0 used by softdevice, Timer2 used by PWM
 static  uint8_t l_debug_i = 0;
-static  nrf_saadc_value_t l_adc_val;
 
+static  nrf_saadc_value_t l_adc_val;
+static  float l_adc_val_f = 0.0;
+static  uint16_t l_adc_ble;
+static  uint8_t l_adc_ble_h = 0;
+static  uint8_t l_adc_ble_l = 0;
+
+/*============= F U N C T I O N S ==============*/
+
+/**@brief   RTC for log timestamp
+ */
 uint32_t rtc_get_counter(void)
 {
   return NRF_RTC1->COUNTER;
@@ -51,10 +62,19 @@ void cs_timer1_event_handler(nrf_timer_event_t event_type, void* p_context)
     switch (event_type)
     {
         case NRF_TIMER_EVENT_COMPARE0:
-            //ble_nus_data_send_datapkg(l_debug_i);
-            //l_debug_i++;
-            //l_adc_val = adc_sar_onchip_sample_block(0);
-            NRF_LOG_INFO("Timer1 Trigger Compare0:%d.",l_adc_val);
+            l_debug_i     ++;
+            l_adc_val     = adc_sar_onchip_sample_block(0);
+            l_adc_val_f  += (float)l_adc_val / (1000.0 / SAMPLE_RATE);
+            if(l_debug_i == 1000 / SAMPLE_RATE)
+            {
+              l_adc_ble = l_adc_val_f * 3.6 / 22.0;
+              l_adc_ble_h = l_adc_ble>>8;
+              l_adc_ble_l = l_adc_ble;
+              ble_nus_data_send_datapkg(l_adc_ble_h,l_adc_ble_l);
+              NRF_LOG_INFO("Timer1 Trigger Compare0:%d %d.",l_adc_ble_h,l_adc_ble_l);
+              l_adc_val_f = 0;
+              l_debug_i   = 0;
+            }
             break;
         case NRF_TIMER_EVENT_COMPARE1:
             NRF_LOG_INFO("Timer1 Trigger Compare1:%d.",l_adc_val);
@@ -74,11 +94,11 @@ static int cs_timer1_init(void)
     err_code = nrf_drv_timer_init(&TIMER_1, &timer_cfg, cs_timer1_event_handler);
     APP_ERROR_CHECK(err_code);
 
-    time_ms = 1005;time_ticks = nrf_drv_timer_ms_to_ticks(&TIMER_1, time_ms);
+    time_ms = 1;time_ticks = nrf_drv_timer_ms_to_ticks(&TIMER_1, time_ms);
     //nrf_drv_timer_compare(&TIMER_1, NRF_TIMER_CC_CHANNEL0, time_ticks, true);
     nrf_drv_timer_extended_compare(&TIMER_1, NRF_TIMER_CC_CHANNEL0, time_ticks, NRF_TIMER_SHORT_COMPARE0_CLEAR_MASK, true);
 
-    time_ms = 1500;time_ticks = nrf_drv_timer_ms_to_ticks(&TIMER_1, time_ms);
+    //time_ms = 1500;time_ticks = nrf_drv_timer_ms_to_ticks(&TIMER_1, time_ms);
     //nrf_drv_timer_extended_compare(&TIMER_1, NRF_TIMER_CC_CHANNEL1, time_ticks, NRF_TIMER_SHORT_COMPARE1_CLEAR_MASK, true);
 
     nrf_drv_timer_enable(&TIMER_1);

@@ -27,11 +27,11 @@
  <Project>
   <ProjectSessionItem path="ble_app_uart_pca10056_s140"/>
   <ProjectSessionItem path="ble_app_uart_pca10056_s140;ble_app_uart_pca10056_s140"/>
-  <ProjectSessionItem path="ble_app_uart_pca10056_s140;ble_app_uart_pca10056_s140;nRF_Libraries"/>
-  <ProjectSessionItem path="ble_app_uart_pca10056_s140;ble_app_uart_pca10056_s140;nRF_Drivers"/>
-  <ProjectSessionItem path="ble_app_uart_pca10056_s140;ble_app_uart_pca10056_s140;None"/>
-  <ProjectSessionItem path="ble_app_uart_pca10056_s140;ble_app_uart_pca10056_s140;Custom_Module"/>
   <ProjectSessionItem path="ble_app_uart_pca10056_s140;ble_app_uart_pca10056_s140;Application"/>
+  <ProjectSessionItem path="ble_app_uart_pca10056_s140;ble_app_uart_pca10056_s140;Custom_Module"/>
+  <ProjectSessionItem path="ble_app_uart_pca10056_s140;ble_app_uart_pca10056_s140;None"/>
+  <ProjectSessionItem path="ble_app_uart_pca10056_s140;ble_app_uart_pca10056_s140;nRF_Drivers"/>
+  <ProjectSessionItem path="ble_app_uart_pca10056_s140;ble_app_uart_pca10056_s140;nRF_Libraries"/>
  </Project>
  <Register1>
   <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="ble_app_uart_pca10056_s140" decimalNodes="" octalNodes="" unsignedNodes=""/>
@@ -59,6 +59,12 @@
   <Watches active="1" update="Never">
    <Watchpoint expression="conn_handle" name="conn_handle" radix="-1" linenumber="0" filename="../ses"/>
    <Watchpoint expression="p_client" name="p_client" radix="-1" linenumber="0" filename="../ses"/>
+   <Watchpoint expression="l_adc_val_f" name="l_adc_val_f" radix="-1" linenumber="0" filename="../ses"/>
+   <Watchpoint expression="l_adc_val" name="l_adc_val" radix="-1" linenumber="0" filename="../ses"/>
+   <Watchpoint expression="l_adc_ble>>8" name="l_adc_ble>>8" radix="-1" linenumber="0" filename=""/>
+   <Watchpoint expression="l_adc_ble&lt;&lt;8" name="l_adc_ble&lt;&lt;8" radix="-1" linenumber="0" filename=""/>
+   <Watchpoint expression="l_adc_ble_l" name="l_adc_ble_l" radix="-1" linenumber="0" filename=""/>
+   <Watchpoint expression="l_adc_ble_h" name="l_adc_ble_h" radix="-1" linenumber="0" filename=""/>
   </Watches>
  </Watch1>
  <Watch2>
@@ -71,8 +77,11 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="117" useTextEdit="1" path="../../../main.c" left="0" selected="1" top="30" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="36" y="6319" useTextEdit="1" path="../config/sdk_config.h" left="0" top="6300" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="41" y="70" useTextEdit="1" path="../../../main.c" left="0" selected="1" top="54" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="15" y="227" useTextEdit="1" path="../../../../../../modules/nrfx/hal/nrf_saadc.h" left="0" top="215" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="38" y="359" useTextEdit="1" path="../../../cus_module/ble_serv_cus.c" left="0" top="335" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="67" y="51" useTextEdit="1" path="../../../cus_module/ble_serv_cus.h" left="0" top="25" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="99" useTextEdit="1" path="../../../../../../components/libraries/util/app_error_weak.c" left="0" top="67" codecName="Default"/>
  </Files>
  <EMStudioWindow activeProject="ble_app_uart_pca10056_s140" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="/Users/yida/Documents/nRFProject/nRF5_SDK_17.1.0_ddde560/modules/nrfx/drivers/src" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>
