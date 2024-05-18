@@ -193,11 +193,15 @@ static void nus_data_handler(ble_nus_evt_t * p_evt)
     if (p_evt->type == BLE_NUS_EVT_RX_DATA)
     {
         uint32_t err_code;
-        NRF_LOG_DEBUG("Received data from BLE NUS. Writing data on UART.");
+        NRF_LOG_DEBUG("Received data from BLE NUS.");
         NRF_LOG_HEXDUMP_DEBUG(p_evt->params.rx_data.p_data, p_evt->params.rx_data.length);
-        for (uint32_t i = 0; i < p_evt->params.rx_data.length; i++)
+        switch (p_evt->params.rx_data.p_data[0]) 
         {
-            NRF_LOG_INFO("Received data from BLE NUS");
+          case 0x50: nrf_gpio_pin_write(LED_PIN,0); break;
+          case 0x51: nrf_gpio_pin_write(LED_PIN,1); break;
+          case 0x60: nrf_gpio_pin_write(PUMP_PIN,0); break;
+          case 0x61: nrf_gpio_pin_write(PUMP_PIN,0); break;
+          default: break;
         }
     }
 }

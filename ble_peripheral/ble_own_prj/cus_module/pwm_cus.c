@@ -35,14 +35,23 @@ uint32_t pwm_init(void)
     //APP_ERROR_CHECK(err_code);
     //app_pwm_enable(&PWM0);
 
-    nrf_gpio_cfg(13,
+    nrf_gpio_cfg(PUMP_PIN,
     NRF_GPIO_PIN_DIR_OUTPUT,
     NRF_GPIO_PIN_INPUT_DISCONNECT,
     NRF_GPIO_PIN_NOPULL,
-    NRF_GPIO_PIN_H0H1,    //High driver capacity for >5mA
+    NRF_GPIO_PIN_S0S1,    
     NRF_GPIO_PIN_NOSENSE);
 
-    nrf_gpio_pin_write(13,1);
-  
+    nrf_gpio_cfg(LED_PIN,
+    NRF_GPIO_PIN_DIR_OUTPUT,
+    NRF_GPIO_PIN_INPUT_DISCONNECT,
+    NRF_GPIO_PIN_NOPULL,
+    NRF_GPIO_PIN_S0S1,    
+    NRF_GPIO_PIN_NOSENSE);
+
+    nrf_gpio_pin_write(PUMP_PIN,0);
+    nrf_gpio_pin_write(LED_PIN,0);
+    
+    err_code = 0;
     return err_code;
 }

@@ -37,13 +37,13 @@
 #define SAMPLE_RATE 10
 
 const   nrf_drv_timer_t TIMER_1 = NRF_DRV_TIMER_INSTANCE(1);//Timer0 used by softdevice, Timer2 used by PWM
-static  uint8_t l_debug_i = 0;
+static  uint16_t l_debug_i = 0;
 
 static  nrf_saadc_value_t l_adc_val;
-static  float l_adc_val_f = 0.0;
-static  uint16_t l_adc_ble;
-static  uint8_t l_adc_ble_h = 0;
-static  uint8_t l_adc_ble_l = 0;
+static  float    l_adc_val_f = 0.0;
+static  int16_t  l_adc_ble;
+static  uint8_t  l_adc_ble_h = 0;
+static  uint8_t  l_adc_ble_l = 0;
 
 /*============= F U N C T I O N S ==============*/
 
@@ -67,11 +67,15 @@ void cs_timer1_event_handler(nrf_timer_event_t event_type, void* p_context)
             l_adc_val_f  += (float)l_adc_val / (1000.0 / SAMPLE_RATE);
             if(l_debug_i == 1000 / SAMPLE_RATE)
             {
-              l_adc_ble = l_adc_val_f * 3.6 / 22.0;
-              l_adc_ble_h = l_adc_ble>>8;
+              // Calculate the current from voltage
+              l_adc_val_f = (l_adc_val_f / 1024.0 * 3.6 - 1.605) / 31 * 1000;
+              l_adc_ble   = l_adc_val_f;
+              l_adc_ble_h = l_adc_ble >> 8;
               l_adc_ble_l = l_adc_ble;
+              // Send the current via BLE NUS
               ble_nus_data_send_datapkg(l_adc_ble_h,l_adc_ble_l);
-              NRF_LOG_INFO("Timer1 Trigger Compare0:%d %d.",l_adc_ble_h,l_adc_ble_l);
+              NRF_LOG_INFO("Timer1 Trigger Compare0:%d.",l_adc_ble);
+              // Reset the temp val
               l_adc_val_f = 0;
               l_debug_i   = 0;
             }
